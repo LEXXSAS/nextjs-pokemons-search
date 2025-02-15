@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { addPokemonsFromLocal, setCheckedFromState, setTypeValue } from "@/redux/slices/pokemonSlice";
+import { addPokemonsFromLocal, setTypeValue } from "@/redux/slices/pokemonSlice";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { setCurrentSearchValue } from "@/redux/slices/searchSlice";
+import { setCurrentPageFromStore, setTotalPage } from "@/redux/slices/pagesSlice";
+import { useRouter } from "next/navigation";
 
 interface IPokemon {
   name: string;
@@ -15,6 +17,8 @@ interface IPokemon {
 const SearchPokemon = () => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const checkedfromstore = useSelector((state: any) => state.search.checked);
   const typeValue = useSelector((state: any) => state.pokemons.typeValue);
@@ -41,6 +45,14 @@ const SearchPokemon = () => {
       }
     }
   }, [search]);
+
+  useEffect(() => {
+    if (search !== "") {
+      dispatch(setTotalPage(1))
+      dispatch(setCurrentPageFromStore(1))
+      router.push(`?page=${Number(1)}`);
+    }
+  }, [search])
 
   useEffect(() => {
     if (typeValue.value !== 'Выбор типа') {

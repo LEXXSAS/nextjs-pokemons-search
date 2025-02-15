@@ -6,7 +6,7 @@ import useSWR, { preload } from "swr";
 import { addAllDetails, addPokemons, setDefaultState, setOriginalTypes } from "@/redux/slices/pokemonSlice";
 import { fetchAllPokemonDetails } from "@/services/getData";
 import { PockemonSingleAllDetails } from "@/main";
-import { setTotalPage } from "@/redux/slices/pagesSlice";
+import { setCurrentPageFromStore, setTotalPage } from "@/redux/slices/pagesSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import PokemonCard from "./PokemonCard";
 import { noDataNoAuth, noDataSearchAll } from "@/constans/no-data-info";
@@ -25,13 +25,13 @@ export default function MainPage() {
   const pageQty = useSelector((state: any) => state.pages.pageQty);
   const useremail = useSelector((state: any) => state.user.useremail);
   const checkedfromstore = useSelector((state: any) => state.search.checked);
+  const searchvalue = useSelector((state: any) => state.search.searchvalue);
   
   useEffect(() => {
     if (pokemons) {
       console.log("pokemons", pokemons);
       setPokemonsData(pokemons);
-      if (pokemons.length < pageQty) {
-        router.push(`?page=${Number(1)}`);
+      if (pokemons.length < pageQty && searchvalue === '') {
         dispatch(setTotalPage(1))
       } else {
         dispatch(setTotalPage(Math.ceil(pokemons.length / pageQty)))
