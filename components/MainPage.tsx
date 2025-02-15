@@ -9,6 +9,7 @@ import { PockemonSingleAllDetails } from "@/main";
 import { setTotalPage } from "@/redux/slices/pagesSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import PokemonCard from "./PokemonCard";
+import { noDataSearchAll } from "@/constans/no-data-info";
 
 export default function MainPage() {
   const [pokemonsData, setPokemonsData] = React.useState([]);
@@ -76,6 +77,8 @@ export default function MainPage() {
   }, [details])
 
   if (isLoading) return <h1>Loading data...</h1>;
+
+  if (pokemonsData && pokemonsData.length === 0) return noDataSearchAll();
 
   return (
     <>
