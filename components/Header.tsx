@@ -53,14 +53,6 @@ export default function Header() {
     picture: userImage,
   }
   
-  // const replaceLocation = () => {
-  //   window.location.replace('/');
-  // }
-
-  // const replaceLocation = () => {
-  //   window.location.replace('/?page=1');
-  // }
-
   const mainMenuActive = () => {
     setIsShow(!isShow);
   }

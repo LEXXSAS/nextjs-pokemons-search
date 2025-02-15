@@ -6,12 +6,6 @@ import { useDispatch } from "react-redux";
 export const useUserData = () => {
   const dispatch = useDispatch();
 
-  // const userDetails = useStore((state) => state.userDetails);
-  // const setUserDetails = useStore((state) => state.setUserDetails);
-  // const setNewPokemonLike = useStore((state) => state.setNewPokemonLike);
-  // const setLikedPokemons = useStore((state) => state.setLikedPokemons);
-  // const setBookmarkedPokemons = useStore((state) => state.setBookmarkedPokemons);
-
   const fetchUserDetails = async (email: string) => {
     let redata = null;
     if (!email) return;
@@ -30,10 +24,6 @@ export const useUserData = () => {
         } else {
           redata = data;
           dispatch(setLikedPokemons(redata));
-          // setUserDetails(data);
-          // setNewPokemonLike(data.liked)
-          // setLikedPokemons(data.liked)
-          // setBookmarkedPokemons(data.bookmarks)
         }
       });
       return redata;

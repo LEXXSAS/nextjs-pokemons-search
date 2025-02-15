@@ -18,27 +18,13 @@ export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
-    maxAge: 15 * 60 * 1000 // 15 minutes
+    maxAge: 15 * 60 * 1000
   },
   callbacks: {
     async jwt({ token }) {
     if (!token.email) {
       return token;
     }
-    
-    // const findUser = await prisma.user.findFirst({
-    //   where: {
-    //     email: token.email
-    //   }
-    // });
-
-    // if (findUser) {
-    //   token.id = String(findUser.id);
-    //   token.role = findUser.role;
-    //   token.fullName = findUser.fullName;
-    //   token.email = findUser.email;
-    // }
-
     return token;
    },
     session: ({ session, token }: any) => {
@@ -51,14 +37,3 @@ export const authOptions: AuthOptions = {
     }
   }
 }
-
-
-// token google data
-
-// name: string
-// email: string
-// picture: string
-// sub: string
-// iat: number
-// exp: number
-// jti: string

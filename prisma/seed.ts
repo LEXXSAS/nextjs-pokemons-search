@@ -4,7 +4,7 @@ async function up() {
   await prisma.user.createMany({
     data: [
       {
-        userEmail: 'asedov15@gmail.com',
+        userEmail: 'your-user-email-from-google',
         bookmarks: [],
         liked: []
       }

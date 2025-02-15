@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 export default function SinglePokemon({pokemonData, slug}: any) {
-  // const [isImageLoading, setImageLoading] = React.useState(true);
-
   const router = useRouter();
-
-  // useEffect(() => {
-  //   setImageLoading(false);
-  // }, [pokemonData]);
 
   function ScrollToTopOnMount() {
     useEffect(() => {
@@ -29,12 +23,10 @@ export default function SinglePokemon({pokemonData, slug}: any) {
     <img
       width={180}
       height={180}
-      // className={isImageLoading ? "image-single object-contain blur" : "image-single object-contain remove-blur"}
       className="image-single object-contain"
       src={String(
         pokemonData.sprites.other["official-artwork"].front_default
       )}
-      // onLoad={() => setImageLoading(false)}
     />
     <button className="single-data-back" onClick={() => router.back()}>
       <MoveLeft size={20} />
