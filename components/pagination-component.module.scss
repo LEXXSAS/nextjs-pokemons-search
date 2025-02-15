@@ -1,0 +1,20 @@
+.pagination_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  button {
+    height: 1.6rem;
+    font-family: inherit;
+    font-size: medium;
+    margin: 0 2px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    border-radius: 5px;
+    border: 1px solid;
+    width: 1.8rem;
+  }
+}
