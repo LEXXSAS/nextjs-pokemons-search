@@ -23,3 +23,11 @@ export function noDataSearchAll() {
   </h3>
   </div>)
 }
+export function noDataNoAuth() {
+  return (
+  <div className="mt-2">
+   <h3 className="font-bold text-gray-700 text-sm mb-0">
+    Для просмотра данных необходимо авторизоваться
+  </h3>
+  </div>)
+}

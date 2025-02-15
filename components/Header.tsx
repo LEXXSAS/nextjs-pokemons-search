@@ -34,7 +34,7 @@ export default function Header() {
     if (status === 'loading') {
       console.log(status);
     }
-    if (status === 'authenticated') {
+    else if (status === 'authenticated') {
       if (data?.user) {
         localStorage.setItem('user', JSON.stringify(data.user.name || ''));
         dispatch(setUserEmail(data.user.email || ''));
@@ -45,6 +45,11 @@ export default function Header() {
         setIsLoading(false);
       }
     }
+    else if (status === 'unauthenticated') {
+      localStorage.removeItem('user');
+      dispatch(setUserEmail(''));
+      setIsLoading(false);
+    }
   }, [data, status]);
 
   const user = {
@@ -52,7 +57,7 @@ export default function Header() {
     name: name,
     picture: userImage,
   }
-  
+
   const mainMenuActive = () => {
     setIsShow(!isShow);
   }
@@ -77,8 +82,8 @@ export default function Header() {
             {!user?.sub && !isLoading && (
               <button
                 onClick={() => signIn('google')}
-                className="py-2 px-6 text-sm flex items-center gap-2 font-bold rounded-lg
-                bg-[#6c5ce7]/15 text-[#6c5ce7] hover:bg-[#6c5ce7]/30 transition-all duration-300 ease-in-out"
+                className="btn-login py-2 px-6 text-sm flex items-center gap-2 font-bold rounded-lg bg-[#c1f4d0]/25
+                 text-[#000000] hover:bg-[#c1f4d0]/50 transition-all duration-300 ease-in-out"
               >
                 <LogIn size={20} />
                 Login
@@ -86,7 +91,7 @@ export default function Header() {
             )}
             {user?.sub && !isLoading && (
               <div ref={ref}>
-                <div onClick={() => mainMenuActive()} className="user-info-container bg-[#6c5ce7]/15 flex items-center justify-center gap-2 rounded-lg cursor-pointer">
+                <div onClick={() => mainMenuActive()} className="user-info-container bg-green-400/15 flex items-center justify-center gap-2 rounded-lg cursor-pointer">
                   <span className="pl-2 text-[#000000] text-sm font-bold">
                     {user?.name || "User"}
                   </span>

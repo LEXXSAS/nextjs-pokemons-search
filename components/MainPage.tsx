@@ -9,7 +9,7 @@ import { PockemonSingleAllDetails } from "@/main";
 import { setTotalPage } from "@/redux/slices/pagesSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import PokemonCard from "./PokemonCard";
-import { noDataSearchAll } from "@/constans/no-data-info";
+import { noDataNoAuth, noDataSearchAll } from "@/constans/no-data-info";
 
 export default function MainPage() {
   const [pokemonsData, setPokemonsData] = React.useState([]);
@@ -23,6 +23,8 @@ export default function MainPage() {
   const pokemons = useSelector((state: any) => state.pokemons.pokemons);
   const details: PockemonSingleAllDetails[] = useSelector((state: any) => state.pokemons.details);
   const pageQty = useSelector((state: any) => state.pages.pageQty);
+  const useremail = useSelector((state: any) => state.user.useremail);
+  const checkedfromstore = useSelector((state: any) => state.search.checked);
   
   useEffect(() => {
     if (pokemons) {
@@ -78,7 +80,9 @@ export default function MainPage() {
 
   if (isLoading) return <h1>Loading data...</h1>;
 
-  if (pokemonsData && pokemonsData.length === 0) return noDataSearchAll();
+  if (pokemonsData && pokemonsData.length === 0 && !checkedfromstore) return noDataSearchAll();
+
+  if (useremail === '' && checkedfromstore) return noDataNoAuth();
 
   return (
     <>

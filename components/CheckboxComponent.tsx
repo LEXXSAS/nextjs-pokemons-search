@@ -3,6 +3,7 @@
 import { PockemonSingleAllDetails } from '@/main';
 import { addPokemonsFromLocal } from '@/redux/slices/pokemonSlice';
 import { setCheckedValue, setCurrentSearchValue } from '@/redux/slices/searchSlice';
+import { BookHeart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -97,7 +98,7 @@ export default function CheckboxComponent() {
   return (
     <div className='checkbox-wrapper'>
       <input
-        className='accent-[#A5D8B4] focus:accent-[#A5D8B4]'
+        className='checkbox-input accent-[#A5D8B4] focus:accent-[#A5D8B4]'
         id='checkbox'
         type='checkbox'
         checked={checked}
@@ -109,7 +110,10 @@ export default function CheckboxComponent() {
         }
         htmlFor='checkbox'
         >
-          Favourites
+        <div className='inline-flex items-center space-x-2'>
+          <BookHeart size={30} />
+          <p>Favourites</p>
+        </div>
       </label>
     </div>
   )

@@ -16,8 +16,6 @@ const SearchPokemon = () => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
 
-  const searchValue = localStorage.getItem("searchvalue");
-
   const checkedfromstore = useSelector((state: any) => state.search.checked);
   const typeValue = useSelector((state: any) => state.pokemons.typeValue);
   const defaultPokemons = useSelector((state: any) => state.pokemons.defaultPokemons);
@@ -49,12 +47,6 @@ const SearchPokemon = () => {
       setSearch('');
     }
   }, [typeValue])
-
-  useEffect(() => {
-    if (!searchValue) {
-
-    }
-  }, [searchValue])
 
   useEffect(() => {
     if (!checkedfromstore && localStorage.getItem('searchvalue')) {
