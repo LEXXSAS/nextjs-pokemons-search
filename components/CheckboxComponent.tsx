@@ -2,9 +2,9 @@
 
 import { PockemonSingleAllDetails } from '@/main';
 import { addPokemonsFromLocal } from '@/redux/slices/pokemonSlice';
-import { setCheckedValue, setCurrentSearchValue } from '@/redux/slices/searchSlice';
+import { setCheckedValue } from '@/redux/slices/searchSlice';
 import { BookHeart } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,6 +18,8 @@ interface IPokemon {
 export default function CheckboxComponent() {
   const [checked, setChecked] = React.useState(false);
   const [checkedTrigger, setCheckedTrigger] = React.useState(false);
+
+  const pathname = usePathname();
 
   const router = useRouter();
 
@@ -110,10 +112,10 @@ export default function CheckboxComponent() {
         }
         htmlFor='checkbox'
         >
-        <div className='inline-flex items-center space-x-2'>
+        {pathname === '/' && <div className='inline-flex items-center space-x-2'>
           <BookHeart size={30} />
           <p>Favourites</p>
-        </div>
+        </div>}
       </label>
     </div>
   )

@@ -9,12 +9,10 @@ import { useSelector } from 'react-redux';
 
 interface PokemonCardProps {
   pokemon?: PockemonSingleAllDetails;
-  testAddNewPokemonForLike?: (name: string) => void;
-  testAddNewPokemonForBookmark?: (name: string) => void;
   pokemonname: string
 }
 
-export default function PokemonCardButtons({pokemonname, testAddNewPokemonForLike, testAddNewPokemonForBookmark}: PokemonCardProps) {
+export default function PokemonCardButtons({pokemonname}: PokemonCardProps) {
   const { performAction } = useUserData();
 
   const likedpokemons = useSelector((state: any) => state.user.likedpokemons);
@@ -24,15 +22,18 @@ export default function PokemonCardButtons({pokemonname, testAddNewPokemonForLik
   const activeToaster = (newpokemonname: string) => {
     if (!useremail) {
       toast.error('Войдите в аккаунт', {
+        duration: 1000,
         icon: '❌'
       });
     } else {
       if (userDetails && likedpokemons.some((item: string) => String(item) === pokemonname)) {
         toast.error(`Покемон ${newpokemonname} удален из избранного`, {
+          duration: 1000,
           icon: '❌'
         });
       } else {
         toast.success(`Покемон ${newpokemonname} добавлен в избранное`, {
+          duration: 1000,
           icon: '✅'
         });
       }
