@@ -17,7 +17,7 @@ const initialState: IState = {
   totalPage: 0,
   totalPageDefault: 0,
   page: 1,
-  pageQty: 6,
+  pageQty: 8,
   loadingtime: 250,
   loadingtimepagination: 150,
   searchquery: '',

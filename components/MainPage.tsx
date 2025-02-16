@@ -6,7 +6,7 @@ import useSWR, { preload } from "swr";
 import { addAllDetails, addPokemons, setDefaultState, setOriginalTypes } from "@/redux/slices/pokemonSlice";
 import { fetchAllPokemonDetails } from "@/services/getData";
 import { PockemonSingleAllDetails } from "@/main";
-import { setCurrentPageFromStore, setTotalPage } from "@/redux/slices/pagesSlice";
+import { setTotalPage } from "@/redux/slices/pagesSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import PokemonCard from "./PokemonCard";
 import { noDataNoAuth, noDataSearchAll } from "@/constans/no-data-info";

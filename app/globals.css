@@ -6,8 +6,8 @@
   --bg-color: #EAE9F2;
   --header-color: #FFF;
   --footer-color: #000000;
-  --btn-no-active-color: #CBC4EC;
-  --btn-active-color: #6c5ce7;
+  --btn-no-active-color: #efc287;
+  --btn-active-color: #e7985ce7;
 }
 
 html,
@@ -95,7 +95,7 @@ nav {
   bottom: 0;
   right: 0;
   padding: 2px 4px;
-  width: 60px;
+  width: 70px;
   text-align: center;
   font: 14px sans-serif;
   font-family: monospace;
@@ -159,7 +159,6 @@ nav {
   bottom: -2.75rem;
   right: 0;
   display: flex;
-  /* right: 10px; */
   background-color: #a5d8b4;
   padding: 0.3rem 1rem;
   border-radius: 0.5rem;
@@ -200,7 +199,6 @@ nav {
   font-family: Roboto;
   top: 0;
   right: 2px;
-  /* right: -15px; */
   width: 150px;
   padding: 10px 30px;
   color: var(--header-color);
@@ -276,19 +274,58 @@ nav {
 }
 
 .checkbox-label {
+  color: #6f8391;
   cursor: pointer;
 }
 
 .checkbox-label-checked {
   color: #a5d8b4;
-  text-decoration: underline 4px;
-  -webkit-text-decoration-color:  #e74c3c;
-  text-decoration-color:  #e74c3c;
 }
 
-.checkbox-label:hover {
-  color: #e74c3c;
+.checkbox-text-active {
+  text-decoration: underline 4px;
+  text-underline-offset: 0.2rem;
 }
+
+.checkbox-text {
+  display: inline-block;
+  position: relative;
+}
+
+.checkbox-text::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 4px;
+  bottom: 0;
+  left: 0;
+  background-color: #a5d8b4;
+  transition: transform 0.25s ease-out;
+}
+
+.checkbox-text:hover::after {
+  transform: scaleX(1);
+}
+
+.checkbox-text::after {
+  transform-origin: bottom left;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .checkbox-text:active::after {
+    transform: scaleX(1);
+  }
+  .checkbox-text:active::after {
+    transform-origin: bottom left;
+  }
+  }
+  
+  @media (hover: hover) and (pointer: fine) {
+    .checkbox-label:hover {
+      color: #a5d8b4;
+    }
+  }
 
 .btn-login {
   font-size: initial;

@@ -6,7 +6,7 @@ export const getDatasBySearch = async (search: string) => {
   return response.json();
 };
 
-const limit = 24;
+const limit = 48;
 const endPoint = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}`;
 
 export async function fetchAllDataWithPokemonImage() {

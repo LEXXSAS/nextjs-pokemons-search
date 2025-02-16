@@ -114,7 +114,7 @@ export default function CheckboxComponent() {
         >
         {pathname === '/' && <div className='inline-flex items-center space-x-2'>
           <BookHeart size={30} />
-          <p>Favourites</p>
+          <p className={checked ? 'checkbox-text checkbox-text-active' : 'checkbox-text checkbox-text-not-active'}>Favourites</p>
         </div>}
       </label>
     </div>

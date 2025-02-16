@@ -92,11 +92,10 @@ export default function Header() {
             {user?.sub && !isLoading && (
               <div ref={ref}>
                 <div onClick={() => mainMenuActive()} className="user-info-container bg-green-400/15 flex items-center justify-center gap-2 rounded-lg cursor-pointer">
-                  <span className="pl-2 text-[#000000] text-sm font-bold">
+                <span className="pl-2 text-[#000000]/60 text-sm font-bold">
                     {user?.name || "User"}
                   </span>
                   <img
-                    // src={user?.picture || ""}
                     src={"https://i.pravatar.cc/40"}
                     alt="avatar"
                     className="p-1 rounded-lg"
