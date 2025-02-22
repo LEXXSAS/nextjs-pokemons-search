@@ -16,23 +16,18 @@ interface IPokemon {
 }
 
 export default function CheckboxComponent() {
-  const [checked, setChecked] = React.useState(false);
-  const [checkedTrigger, setCheckedTrigger] = React.useState(false);
-
+  
   const pathname = usePathname();
 
   const router = useRouter();
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setCheckedValue(checked));
-  }, [checked])
-
   const defaultPokemons: IPokemon[] = useSelector((state: any) => state.pokemons.defaultPokemons);
   const likedpokemons = useSelector((state: any) => state.user.likedpokemons);
   const typeValue = useSelector((state: any) => state.pokemons.typeValue);
   const searchvaluefromstore = useSelector((state: any) => state.search.searchvalue);
+  const checked = useSelector((state: any) => state.search.checked);
 
   function checkedPokemonsForState() {
     let filteredPokemon: IPokemon[] = [];
@@ -55,45 +50,46 @@ export default function CheckboxComponent() {
     })
     return filteredPokemon;
   }
-  
-  function searchPokemonsForState(name: string) {
-    return defaultPokemons.filter((pokemon: IPokemon) => pokemon.name.toLowerCase().includes(name.toLowerCase()));
-  }
+
+  useEffect(() => {
+    localStorage.setItem('checked', JSON.stringify(checked));
+  }, [checked])
 
   useEffect(() => {
     if (checked) {
+      localStorage.removeItem('searchvalue');
       dispatch(addPokemonsFromLocal(checkedPokemonsForState()));
       router.push(`?page=${Number(1)}`);
     } else if (!checked && typeValue.value !== 'Выбор типа') {
+      localStorage.removeItem('checked');
       dispatch(addPokemonsFromLocal(selectPokemonsForState()));
     } 
-    else if (!checked && typeValue.value === 'Выбор типа' && checkedTrigger) {
-      dispatch(addPokemonsFromLocal(defaultPokemons));
+    else if (!checked && typeValue.value === 'Выбор типа'  && !localStorage.getItem('searchvalue')) {
+      defaultPokemons !== undefined && dispatch(addPokemonsFromLocal(defaultPokemons));
+      
+      if (typeof window !== 'undefined' && !localStorage.getItem('searchvalue')) {
+
+      }
     }
   }, [checked, likedpokemons]);
 
   useEffect(() => {
     if (checked && typeValue.value === 'Выбор типа' || checked && typeValue.value !== 'Выбор типа') {
-      setChecked(false);
+      dispatch(setCheckedValue(checked));
       dispatch(addPokemonsFromLocal(defaultPokemons));
     }
   }, [typeValue])
 
   const handleChecked = () => {
-    setChecked(!checked);
-    setCheckedTrigger(true)
+    dispatch(setCheckedValue(!checked));
     if (!checked && typeValue.value === 'Выбор типа') {
       dispatch(addPokemonsFromLocal(defaultPokemons));
     }
   }
 
   useEffect(() => {
-    setCheckedTrigger(false)
-  }, [])
-
-  useEffect(() => {
     if (searchvaluefromstore === '' && typeValue.value === 'Выбор типа') {
-      setChecked(false);
+      dispatch(setCheckedValue(checked));
     }
   }, [searchvaluefromstore])
 

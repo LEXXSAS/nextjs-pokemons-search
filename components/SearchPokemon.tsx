@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { addPokemonsFromLocal, setTypeValue } from "@/redux/slices/pokemonSlice";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
-import { setCurrentSearchValue } from "@/redux/slices/searchSlice";
+import { setCheckedValue, setCurrentSearchValue } from "@/redux/slices/searchSlice";
 import { setCurrentPageFromStore, setTotalPage } from "@/redux/slices/pagesSlice";
 import { useRouter } from "next/navigation";
 
@@ -29,21 +29,48 @@ const SearchPokemon = () => {
   }
 
   useEffect(() => {
-    dispatch(setCurrentSearchValue(search));
-    if (search !== "" && typeof window !== undefined) {
-      localStorage.setItem("searchvalue", search);
-      dispatch(setTypeValue({value: 'Выбор типа', label: 'Выбор типа'}))
-      async function searchData(search: string) {
-        dispatch(addPokemonsFromLocal(searchPokemonsForState(search)))
+    if (typeof window !== 'undefined' && search === "") {
+      if (localStorage.getItem('searchvalue')) {
+        setSearch(localStorage.getItem('searchvalue') as string);
       }
-      searchData(search);
+    }
+  }, [])
+
+  useEffect(() => {
+    dispatch(setCurrentSearchValue(search));
+    if (!localStorage.getItem('searchvalue')) {
+      if (search && search !== "") {
+        localStorage.setItem("searchvalue", search);
+        dispatch(setCheckedValue(false));
+        localStorage.setItem("checked", 'false');
+        dispatch(setTypeValue({value: 'Выбор типа', label: 'Выбор типа'}))
+        async function searchData(search: string) {
+          dispatch(addPokemonsFromLocal(searchPokemonsForState(search)))
+        }
+        searchData(search);
+      }
+      else {
+        if (typeValue.value === 'Выбор типа') {
+          dispatch(addPokemonsFromLocal(defaultPokemons));
+        }
+      }
     }
     else {
-      localStorage.removeItem("searchvalue");
-      if (typeValue.value === 'Выбор типа') {
+      if (search && search !== "") {
+        localStorage.setItem("searchvalue", search);
+        dispatch(setTypeValue({value: 'Выбор типа', label: 'Выбор типа'}))
+        async function searchData(search: string) {
+          dispatch(addPokemonsFromLocal(searchPokemonsForState(search)))
+        }
+        searchData(search);
+      }
+      else if (search === "" && typeof window !== undefined) {
+        localStorage.removeItem("searchvalue");
+        setSearch('');
         dispatch(addPokemonsFromLocal(defaultPokemons));
       }
-    }
+  }
+
   }, [search]);
 
   useEffect(() => {
@@ -61,11 +88,10 @@ const SearchPokemon = () => {
   }, [typeValue])
 
   useEffect(() => {
-    if (!checkedfromstore && localStorage.getItem('searchvalue')) {
+    if (!localStorage.getItem('checked') && !checkedfromstore && localStorage.getItem('searchvalue')) {
       async function searchData(search: string) {
         dispatch(addPokemonsFromLocal(searchPokemonsForState(search)))
       }
-      searchData(localStorage.getItem('searchvalue') || '');
     }
   }, [checkedfromstore])
 
@@ -76,7 +102,7 @@ const SearchPokemon = () => {
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[180px] ps-5 p-2 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-green-500"
         type="search"
         placeholder="Введите название..."
-        value={search}
+        value={search || ""}
         onChange={(event) => setSearch(event.target.value)}
       />
     </form>

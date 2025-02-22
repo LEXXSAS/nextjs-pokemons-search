@@ -3,8 +3,10 @@
 import { MoveLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import PokemonCardButtons from "./PokemonCardButtons";
 
 export default function SinglePokemon({pokemonData, slug}: any) {
+  
   const router = useRouter();
 
   function ScrollToTopOnMount() {
@@ -19,7 +21,8 @@ export default function SinglePokemon({pokemonData, slug}: any) {
     <>
     <ScrollToTopOnMount />
     <div className="single-data-card">
-    <h3 className="text-xl">{slug}</h3>
+    <PokemonCardButtons key={slug} pokemonname={slug} />
+    <div className="h-6"></div>
     <img
       width={180}
       height={180}

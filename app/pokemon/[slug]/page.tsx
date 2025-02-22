@@ -2,10 +2,6 @@ import SinglePokemon from "@/components/SinglePokemon";
 import { PockemonSingleAllDetails } from "@/main";
 import { notFound } from "next/navigation";
 
-interface IParams {
-  slug: string;
-}
-
 async function getPokemonByName(slug: string) {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${slug}`, {
     cache: 'force-cache'
@@ -16,9 +12,8 @@ async function getPokemonByName(slug: string) {
 }
 
 export async function generateStaticParams() {
-  // const limit = 1118
   const limit = 118
-  const pokemons = await fetch('https://pokeapi.co/api/v2/pokemon?limit=118', {
+  const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`, {
     cache: 'force-cache',
   }).then((res) => res.json())
  
