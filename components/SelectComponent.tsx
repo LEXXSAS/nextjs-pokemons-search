@@ -52,12 +52,6 @@ export const SelectComponent = () => {
     dispatch(setTypeValue(value));
   }
 
-  useEffect(() => {
-    return () => {
-      dispatch(setTypeValue({value: 'Выбор типа', label: 'Выбор типа'}))
-    }
-  }, [pathname])
-
   function selectPokemonsForState() {
     let filteredPokemon: IPokemon[] = [];
     defaultPokemons.map((pokemon) => {
