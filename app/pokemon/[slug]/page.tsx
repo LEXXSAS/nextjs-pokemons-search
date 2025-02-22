@@ -1,19 +1,34 @@
 import SinglePokemon from "@/components/SinglePokemon";
+import { PockemonSingleAllDetails } from "@/main";
+import { notFound } from "next/navigation";
 
 interface IParams {
   slug: string;
-  params: {
-    slug: string;
-  };
 }
 
-async function getPokemonByName(name: string) {
-  const res = await fetch("https://pokeapi.co/api/v2/pokemon/" + name);
-  return await res.json();
+async function getPokemonByName(slug: string) {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${slug}`, {
+    cache: 'force-cache'
+  });
+  const data: PockemonSingleAllDetails = await res.json();
+  if (!data) notFound()
+  return data;
 }
 
-export default async function Pokemon({ params }: { params: Promise<IParams>}) {
-  const slug = (await params).slug;
+export async function generateStaticParams() {
+  // const limit = 1118
+  const limit = 118
+  const pokemons = await fetch('https://pokeapi.co/api/v2/pokemon?limit=118', {
+    cache: 'force-cache',
+  }).then((res) => res.json())
+ 
+  return pokemons?.results.map((pokemon: PockemonSingleAllDetails) => ({
+    slug: String(pokemon.name),
+  }))
+}
+
+export default async function Pokemon({ params }: { params: Promise<{slug: string}>}) {
+  const { slug } = await params;
 
   const pokemonData = await getPokemonByName(slug);
 
