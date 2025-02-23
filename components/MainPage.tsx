@@ -10,6 +10,7 @@ import { setTotalPage } from "@/redux/slices/pagesSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import PokemonCard from "./PokemonCard";
 import { noDataNoAuth, noDataSearchAll } from "@/constans/no-data-info";
+import { spinner } from "./spinner";
 
 interface IPokemon {
   name: string;
@@ -20,6 +21,7 @@ interface IPokemon {
 
 export default function MainPage() {
   const [pokemonsData, setPokemonsData] = React.useState([]);
+  const [pageData, setPageData] = React.useState([]);
 
   const dispatch = useDispatch();
 
@@ -105,6 +107,13 @@ export default function MainPage() {
     dispatch(setOriginalTypes(originalArr));
   }, [details])
 
+  useEffect(() => {
+    setTimeout(() => {
+      setPageData(currentData);
+    }, 250)
+    setPageData([])
+  }, [querypage, pokemons])
+
   if (isLoading) return <h1>Loading data...</h1>;
 
   if (pokemonsData && pokemonsData.length === 0 && !checkedfromstore) return noDataSearchAll();
@@ -114,9 +123,9 @@ export default function MainPage() {
   return (
     <>
       <div className="data-container">
-        <ScrollToTopOnMount /> 
+        <ScrollToTopOnMount />
         {pokemonsData &&
-          currentData?.map((item: { name: string; url: string; image: string, details: any }) => (
+          pageData.length === 0 ? spinner() : pageData?.map((item: { name: string; url: string; image: string, details: any }) => (
             <PokemonCard key={item.name} item={item} />
           ))}
       </div>
